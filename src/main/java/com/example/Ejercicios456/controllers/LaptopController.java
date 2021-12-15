@@ -97,7 +97,7 @@ public class LaptopController {
     @ApiOperation("Actualizar una Laptop segun la clave primaria")
     public ResponseEntity<Laptop> update(@RequestBody Laptop laptop){
         if (laptop.getId() == null){
-            log.warn("Trying to update a non existent laptop");
+            log.warn("Trying to update a nonn existent laptop");
             return ResponseEntity.badRequest().build();
 
         }
