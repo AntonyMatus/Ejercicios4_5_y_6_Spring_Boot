@@ -2,6 +2,8 @@ package com.example.Ejercicios456.controllers;
 
 import com.example.Ejercicios456.entity.Laptop;
 import com.example.Ejercicios456.repository.LaptopRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +61,15 @@ public class LaptopController {
      */
 
     @GetMapping("/api/laptops")
+    @ApiOperation("Buscar Todas las Laptops en una Lista")
     public List<Laptop> findAll(){
         return laptopRepository.findAll();
     }
 
+
     @GetMapping("/api/laptops/{id}")
-    public ResponseEntity<Laptop> findOneById(@PathVariable Long id){
+    @ApiOperation("Buscar una Laptop por clave primaria id Long")
+    public ResponseEntity<Laptop> findOneById(@ApiParam("Clave primaria tipo Long") @PathVariable Long id){
         Optional<Laptop> laptopOpt = laptopRepository.findById(id);
 
         if (laptopOpt.isPresent())
@@ -74,6 +79,7 @@ public class LaptopController {
     }
 
     @PostMapping("/api/laptops")
+    @ApiOperation("Crear un nuevo Registro de una Laptop")
     public ResponseEntity<Laptop> create(@RequestBody Laptop laptop){
 
         if (laptop.getId() != null){
@@ -88,6 +94,7 @@ public class LaptopController {
     }
 
     @PutMapping("/api/laptops")
+    @ApiOperation("Actualizar una Laptop segun la clave primaria")
     public ResponseEntity<Laptop> update(@RequestBody Laptop laptop){
         if (laptop.getId() == null){
             log.warn("Trying to update a non existent laptop");
@@ -104,6 +111,7 @@ public class LaptopController {
 
 
     @DeleteMapping("/api/laptops/{id}")
+    @ApiOperation("Eliminar un registro mediante la Clave id")
     public ResponseEntity<Laptop> delete(@PathVariable Long id){
 
         if (!laptopRepository.existsById(id)){
@@ -117,6 +125,8 @@ public class LaptopController {
 
     }
 
+    @DeleteMapping("/api/laptops")
+    @ApiOperation("Eliminar todos los Registros de la BD")
     public ResponseEntity<Laptop> deleteAll(){
         log.info("REST Request fot delete all laptops");
         laptopRepository.deleteAll();
